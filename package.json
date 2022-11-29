@@ -1,0 +1,23 @@
+{
+  "name": "emprestaapi",
+  "version": "1.0.0",
+  "description": "Api to emprestai app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/mt300/api-emprestai.git"
+  },
+  "author": "Matheus Tomazi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mt300/api-emprestai/issues"
+  },
+  "homepage": "https://github.com/mt300/api-emprestai#readme",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "express": "^4.18.2"
+  }
+}
