@@ -8,10 +8,21 @@
 </head>
 <body>
     <hr>
-    <h4>Games</h4>
+    <h4>Data</h4>
     <ul id="response"></ul>
 
     <hr>
+    <h4>Edit</h4>
+    <input type="text" id="userInput" placeholder="username" />
+    <br>
+    <input type="text" id="voltageInput" placeholder="voltage" />
+    <br>
+    <input type="text" id="deadLineInput" placeholder="dead line" />
+    <br>
+    <input type="text" id="descInput" placeholder="description" />
+    <br>
+    <input type="button" value="submit" id="submitButton" onclick="updateData">
+    
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
@@ -20,6 +31,28 @@
             // Authorization: "Bearer " + storedToken
         }
     }
+    function deleteData(event) {
+        // console.log(event.target.accessKey);
+        axios.delete("http://localhost:8080/post/" + event.target.accessKey,axiosConfig).then(response =>{
+            location.reload();
+        }).catch(e=>{
+            console.log(e);
+        })
+    }
+    function updateData(event){
+        var body ={
+            user: document.getElementById("userInput").value,
+            voltage: document.getElementById("voltageInput").value,
+            deadLine: document.getElementById("deadLineInput").value,
+            desc: document.getElementById("descInput")
+        }
+        axiosConfig.body = body;
+        axios.put("http://localhost:8080/post/1",axiosConfig).then(response => {
+            location.reload();
+        }).catch(e=> {
+            console.log(e)
+        })
+    }
     axios.get("http://localhost:8080/posts",axiosConfig).then( response => {
         var arr = response.data.arr;
         var list = document.getElementById("response");
@@ -27,6 +60,8 @@
         arr.forEach(element => {
             var item = document.createElement("li");
             item.innerHTML = "id: " + element.id + " user: " + element.user + "  desc: " + element.desc
+            item.accessKey = element.id;
+            item.addEventListener("click",deleteData)
             list.appendChild(item);
         });
     }).catch((err) => {

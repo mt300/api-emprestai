@@ -37,7 +37,43 @@ app.post("/post", (req,res) => {
         desc: desc
     });
     res.status(200);
-    res.send("boa")
+    res.send("boa");
+});
+
+app.delete("/post/:id", (req,res) => {
+    var id = req.params.id;
+    var index = Data.findIndex( i => i.id == id);
+    if(index >= 0){
+        Data.splice(index,1);
+        res.sendStatus(200);
+    }
+});
+
+//testar
+app.put("/post/:id", (req,res) => {
+    var id = req.params.id;
+    var{user,voltage,desc,deadLine} = req.body;
+
+    var post = Data.find( el => { el.id == id});
+
+    if(post == undefined ){
+        console.log("erro");
+    }else {
+        if(user != undefined){
+            post.user = user;
+        }
+        if(voltage != undefined){
+            post.voltage = voltage;
+        }
+        if(deadLine != undefined){
+            post.deadLine = deadLine;
+        }
+        if(desc != undefined){
+            post.desc = desc;
+        }
+
+        res.sendStatus(200);
+    }
 })
 
 app.listen(8080,()=>{
