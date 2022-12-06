@@ -35,7 +35,7 @@
         // console.log(event.target.accessKey);
         axios.delete("http://localhost:8080/post/" + event.target.accessKey,axiosConfig).then(response =>{
             location.reload();
-        }).catch(e=>{
+        }).catch(e =>{
             console.log(e);
         })
     }
