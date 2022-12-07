@@ -8,27 +8,57 @@
 </head>
 <body>
     <hr>
+    <h4>Login</h4>
+    <input type="email" id="email" placeholder="email">
+    <br><br>
+    <input type="password" name="password" id="password" placeholder="*****">
+    <br><br>
+    <button onclick="login()">Login</button>
+    <hr>
     <h4>Data</h4>
     <ul id="response"></ul>
 
     <hr>
     <h4>Edit</h4>
     <input type="text" id="userInput" placeholder="username" />
-    <br>
+    <br><br>
     <input type="text" id="voltageInput" placeholder="voltage" />
-    <br>
+    <br><br>
     <input type="text" id="deadLineInput" placeholder="dead line" />
-    <br>
+    <br><br>
     <input type="text" id="descInput" placeholder="description" />
-    <br>
+    <br><br>
     <input type="button" value="submit" id="submitButton" onclick="updateData">
     
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+    function login(){
+        var emailField = document.getElementById("email");
+        var passwordField = document.getElementById("password");
+
+        var email = emailField.value;
+        var password = passwordField.value;
+
+
+        axios.post("http://localhost:8080/auth",{
+            email,
+            password
+        }).then( res => {
+            var token = res.data.token;
+            localStorage.setItem("authToken", token);
+            axiosConfig.headers.Authorization = "Bearer " + storedToken
+            alert("Logged in " );
+            
+        }).catch(err => {
+            alert("Failed to login");
+        })
+    }
+    const storedToken = localStorage.getItem("authToken");
+    
     var axiosConfig = {
         headers: {
-            // Authorization: "Bearer " + storedToken
+            Authorization: "Bearer " + storedToken
         }
     }
     function deleteData(event) {
