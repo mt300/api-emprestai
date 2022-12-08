@@ -7,6 +7,7 @@ const app = express();
 
 const usersController = require("./users/UsersController");
 const postsController = require("./posts/PostsController");
+const chatsController = require("./chats/ChatsController");
 
 
 
@@ -37,6 +38,7 @@ connection
 //controlers
 app.use("/",usersController);
 app.use("/",postsController);
+app.use("/",chatsController);
 
 
 

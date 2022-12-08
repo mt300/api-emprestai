@@ -21,8 +21,19 @@ router.post("/auth", (req,res) => {
                             res.status(400);
                             res.json({err:"Internal Failure"});
                         }else{
+                            req.session.user = {
+                             
+                            }
                             res.status(200);
-                            res.json({token:token});
+                            res.json({
+                                token:token,
+                                loggedUser:{
+                                    id: user.id,
+                                    email: user.email,
+                                    name: user.name,
+                                    city: user.city
+                                }
+                            });
                         }
                     });
 

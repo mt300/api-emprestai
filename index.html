@@ -33,6 +33,7 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+    // console.log(axios)
     function login(){
         var emailField = document.getElementById("email");
         var passwordField = document.getElementById("password");
@@ -48,6 +49,8 @@
             var token = res.data.token;
             localStorage.setItem("authToken", token);
             axiosConfig.headers.Authorization = "Bearer " + storedToken
+            console.log(res.data);
+            console.log(token)
             alert("Logged in " );
             
         }).catch(err => {
