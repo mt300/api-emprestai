@@ -26,6 +26,14 @@ const Post = connection.define('posts',{
     active: {
         type: Sequelize.BOOLEAN,
         allowNull: false
+    },
+    userEmail: {
+        type: Sequelize.TEXT,
+        allowNull: false
+    },
+    userName: {
+        type: Sequelize.TEXT,
+        allowNull: false
     }
 });
 

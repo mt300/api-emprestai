@@ -52,16 +52,18 @@ router.get("/post/:id",auth,(req,res)=>{
 
 //funciona
 router.post("/post", auth,(req,res) => {
-    var {userId, voltage, object, deadLine, desc, type} = req.body;
+    var {userId, voltage, object, deadLine, desc, type,userEmail, userName} = req.body;
 
     Post.create({
-        userId: userId,
-        object: object,
-        voltage: voltage,
+        userId,
+        userEmail,
+        userName,
+        object,
+        voltage,
         deadline: deadLine,
         description: desc,
         active: true,
-        type: type
+        type
     }).then( () => {
         res.status(200);
         res.send("Post created.");
