@@ -49,9 +49,20 @@ router.get("/post/:id",auth,(req,res)=>{
         res.send("Internal error");
     });
 })
-
+router.get("/actives",auth,(req,res) => {
+    // var active = req.params.active;
+    Post.findAll({where:{active:true}}).then( posts => {
+        // console.log("oi")
+        res.statusCode = 200;
+        res.json({posts:posts})
+    }).catch( err => {
+        console.log(err)
+        res.statusCode = 400;
+        res.send("Bad request")
+    })
+})
 //funciona
-router.post("/post", auth,(req,res) => {
+router.post("/post",auth,(req,res) => {
     var {userId, voltage, object, deadLine, desc, type,userEmail, userName} = req.body;
 
     Post.create({
@@ -65,6 +76,7 @@ router.post("/post", auth,(req,res) => {
         active: true,
         type
     }).then( () => {
+
         res.status(200);
         res.send("Post created.");
     }).catch( err => {
@@ -98,13 +110,10 @@ router.post("/post", auth,(req,res) => {
 //funciona
 router.put("/post/:id",auth, (req,res) => {
     var id = req.params.id;
-    var{user,voltage,desc,deadLine,object,active} = req.body;
+    var{voltage,desc,deadLine,object,active} = req.body;
 
     var data = {};
 
-    if(user != undefined){
-        data = {...data,user: user};
-    }
     if(voltage != undefined){
         data = {...data,voltage:voltage};
     }
@@ -124,14 +133,16 @@ router.put("/post/:id",auth, (req,res) => {
         where:{
             id: id
         }
-    }).then( () => {    
+    }).then( (result) => {    
         
+        console.log("aqui")
         res.statusCode = 200;
         res.send("Post updated");
         
     }).catch( err => {
-        res.statusCode = 400;
-        res.send("Bad request");
+        console.log("aqui tambem")
+        res.statusCode = 401;
+        res.send("Bad request" + err);
     });
 })
 
