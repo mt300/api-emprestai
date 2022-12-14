@@ -18,7 +18,15 @@ function passGen(length) {
     return result;
 }
 
-// console.log(makeid(5));
+router.get("/users",auth, (req,res) => {
+    User.findAll().then( users => {
+        res.status(200);
+        res.send({users})
+    }).catch( err => {
+        res.status(400);
+        res.json({err})
+    })
+})
 
 router.put("/recovery", (req,res) => {
     var email = req.body.email;
@@ -57,34 +65,35 @@ router.post("/auth", (req,res) => {
     if(email != undefined){
         User.findOne({where:{email:email}}).then( user => {
             if(user != undefined){
-                var correct = bcrypt.compare(password,user.password)
-                if(correct){
+                bcrypt.compare(password,user.password).then( correct => {
+                    if(correct){
                     
-                    jwt.sign({name: user.name, email: user.email, city: user.city, id: user.id}, JWTSecret, {expiresIn:'48h'},(err,token) =>{
-                        if(err){
-                            res.status(400);
-                            res.json({err:"Internal Failure"});
-                        }else{
-                            req.session.user = {
-                             
-                            }
-                            res.status(200);
-                            res.json({
-                                token:token,
-                                loggedUser:{
-                                    id: user.id,
-                                    email: user.email,
-                                    name: user.name,
-                                    city: user.city
+                        jwt.sign({name: user.name, email: user.email, city: user.city, id: user.id}, JWTSecret, {expiresIn:'48h'},(err,token) =>{
+                            if(err){
+                                res.status(400);
+                                res.json({err:"Internal Failure"});
+                            }else{
+                                req.session.user = {
+                                 
                                 }
-                            });
-                        }
-                    });
-
-                }else{
-                    res.status(401);
-                    res.send("BAD Authentication. Password does not match this user");
-                }
+                                res.status(200);
+                                res.json({
+                                    token:token,
+                                    loggedUser:{
+                                        id: user.id,
+                                        email: user.email,
+                                        name: user.name,
+                                        city: user.city
+                                    }
+                                });
+                            }
+                        });
+    
+                    }else{
+                        res.status(401);
+                        res.send("BAD Authentication. Password does not match this user");
+                    }
+                })
                 
             }else {
                 res.status(404);
@@ -143,7 +152,9 @@ router.put("/user/:email",auth, (req,res) => {
         data = {...data,name:name}
     }
     if(password != undefined){
-        data = {...data,password:password}
+        var salt = bcrypt.genSaltSync(10);
+        var hash = bcrypt.hashSync(password, salt);
+        data = {...data,password:hash}
     }
     if(city != undefined){
         data = {...data,city:city}

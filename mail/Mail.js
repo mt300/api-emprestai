@@ -20,10 +20,10 @@ const Mail = function (email,text){
         subject: "Recuperação de Senha",
         text: text
     }).then( msg => {
-        console.log("hello friends")
+        // console.log("hello friends")
         console.log(msg)
     }).catch( err => {
-        console.log("byebye fries")
+        // console.log("byebye fries")
         console.log(err)
     })
 }
