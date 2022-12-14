@@ -8,6 +8,18 @@ const Mail = require("../mail/Mail");
 
 const JWTSecret = "random";
 
+function passGen(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
+console.log(makeid(5));
+
 router.put("/recovery", (req,res) => {
     var email = req.body.email;
     if(email != undefined && email != ''){
@@ -15,7 +27,7 @@ router.put("/recovery", (req,res) => {
             where:{email:email}
         }).then( user => {
             if(user != undefined){
-                var password = user.city + (Math.random()*100).toString() + "axl*" 
+                // var password = 
                 var salt = bcrypt.genSaltSync(10);
                 var hash = bcrypt.hashSync(password, salt);
                 User.update({password:hash},{
