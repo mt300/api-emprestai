@@ -4,9 +4,41 @@ const User = require("./User");
 const bcrypt = require("bcryptjs");
 const auth = require("../middlewares/Auth.js");
 const jwt = require("jsonwebtoken");
-
+const Mail = require("../mail/Mail");
 
 const JWTSecret = "random";
+
+router.put("/recovery", (req,res) => {
+    var email = req.body.email;
+    if(email != undefined && email != ''){
+        User.findOne({
+            where:{email:email}
+        }).then( user => {
+            if(user != undefined){
+                var password = user.city + (Math.random()*100).toString() + "axl*" 
+                var salt = bcrypt.genSaltSync(10);
+                var hash = bcrypt.hashSync(password, salt);
+                User.update({password:hash},{
+                    where:{email:email}
+                }).then(() => {
+                    Mail(email,"Olá, sua senha é: " + password + "  Recomendamos que a altere o quanto antes.");
+                    res.status(200);
+                    res.json({msg:"password sent to email"})
+                }).catch( err => {
+                    res.status(400);
+                    res.json({msg:"Error: internal database error"})    
+                })
+                
+            }else{
+                res.status(401)
+                res.json({msg:"Error: user not found"})
+            }
+        })
+    }else{
+        res.status(401)
+        res.json({msg:"Error: invalid email sent"})
+    }    
+})
 
 router.post("/auth", (req,res) => {
     var {email, password} = req.body;
