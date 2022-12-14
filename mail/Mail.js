@@ -5,8 +5,8 @@ let transporter = nodemailer.createTransport({
     port: 587,
     secureConnection: true,
     auth: {
-        // user: "matheus.tomazi5@gmail.com",
-        // pass: 
+        user: "suporte.emprestaai@gmail.com",
+        pass: "meelfnnssdiqhmdi"
     },
     tls: {
         ciphers: 'SSLv3'
@@ -15,7 +15,7 @@ let transporter = nodemailer.createTransport({
 
 const Mail = function (email,text){
     transporter.sendMail({
-        from: "Suporte EmprestaAi <matheus.tomazi5@gmail.com>",
+        from: "Suporte EmprestaAi <suporte.emprestaai@gmail.com>",
         to: email,
         subject: "Recuperação de Senha",
         text: text

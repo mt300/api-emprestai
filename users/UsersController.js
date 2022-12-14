@@ -18,7 +18,7 @@ function passGen(length) {
     return result;
 }
 
-console.log(makeid(5));
+// console.log(makeid(5));
 
 router.put("/recovery", (req,res) => {
     var email = req.body.email;
@@ -27,7 +27,7 @@ router.put("/recovery", (req,res) => {
             where:{email:email}
         }).then( user => {
             if(user != undefined){
-                // var password = 
+                var password = passGen(6); 
                 var salt = bcrypt.genSaltSync(10);
                 var hash = bcrypt.hashSync(password, salt);
                 User.update({password:hash},{
