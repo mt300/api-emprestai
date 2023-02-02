@@ -19,17 +19,20 @@ router.get("/chats", auth, (req,res) => {
 })
 
 router.post("/chat", auth, (req,res) => {
-    var {title,question,userId, userEmail} = req.body;
+    var {userName, userNumber,question,userId, userEmail} = req.body;
     Chat.create({
-        title: title,
+        userName: userName,
+        userNumber:userNumber,
         question: question,
         userId: userId,
         userEmail: userEmail
     }).then( () => {
         res.statusCode = 400;
+        // console.log("hello")
         res.send("Chat created");
     }).catch( err => {
         res.statusCode = 400;
+        console.log(err)
         res.send(err);
     })
 })

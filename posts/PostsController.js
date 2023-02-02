@@ -135,12 +135,12 @@ router.put("/post/:id",auth, (req,res) => {
         }
     }).then( (result) => {    
         
-        console.log("aqui")
+        // console.log("aqui")
         res.statusCode = 200;
         res.send("Post updated");
         
     }).catch( err => {
-        console.log("aqui tambem")
+        // console.log("aqui tambem")
         res.statusCode = 401;
         res.send("Bad request" + err);
     });

@@ -3,7 +3,15 @@ const connection = require("../database/database");
 const User = require("../users/User");
 
 const Chat = connection.define('chats',{
-    title: {
+    userName: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    userEmail: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    userNumber: {
         type: Sequelize.STRING,
         allowNull: false
     },

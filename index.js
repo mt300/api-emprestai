@@ -41,5 +41,5 @@ app.use("/",chatsController);
 
 
 app.listen(8080,()=>{
-    console.log("Api Running");
+    console.log("Api Server Running");
 })
